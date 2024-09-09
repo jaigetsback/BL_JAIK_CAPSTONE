@@ -73,7 +73,9 @@ Using basic classifiers for modeling with cross validation - to see the initial 
 * Multinomial NB
 * Random Forest Classifier
 
-Used Stratified Kfold for generating the optimal cross validation.
+Used Stratified Kfold for generating the optimal cross validation. 
+
+Apply SMOTE - Synthetic Minority Oversampling Technique to handle class imbalance between the clusters.
 
 The baseline score for the classifier was obtained by using the DummyClassifier with the training data. The score to meet or exceed is ~60%
 
