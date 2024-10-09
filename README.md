@@ -1,100 +1,54 @@
-# Analyze and Bin Data Using Test-Based Classifier Models
+# Business Report on Consumer Complaint Classification Project
 
-**Jai Kumar**
+*Created by Jai Kumar*
 
-## Executive Summary
-This research aims to classify consumer complaints into predefined categories or clusters using machine learning techniques. By leveraging the Consumer Complaint Database, we will transform text data into vectors and apply various classification algorithms to identify the most effective model. The results will help in categorizing future complaints, providing valuable insights for improving consumer services.
 
-## Rationale
-The importance of this research lies in its practical applications within our workplace. By utilizing text classification and clustering methods, we can effectively analyze reports from the ASIC implementation and test team. This analysis will help identify clusters that highlight issues, errors, deficiencies, and functional failures.
+## Problem Statement
 
-## Research Question
-How can consumer complaints be classified into predefined categories to enable the categorization of future texts, and can these methods be extrapolated to any body of text to identify clusters?
+In the current landscape of consumer services, efficiently managing and categorizing consumer complaints is crucial for enhancing customer satisfaction and operational efficiency. This project aims to classify consumer complaints into predefined categories using advanced machine learning techniques. By leveraging the Consumer Complaint Database, the goal is to improve the accuracy and efficiency of complaint categorization, providing actionable insights for better consumer service.
 
-## Data Sources
-The data for this research will be sourced from the Consumer Complaint Database, which contains complaints about consumer financial products and services. This database is publicly accessible at Consumer Complaint Database.
+## Results and Important Findings
 
-This database has approximately 6 million rows and 18 columns.
+### Data Exploration and Preparation
 
-### Input Variables
-- **Date received**: Date and time
-- **Product**: Categorical variable, plain text
-- **Sub-product**: Categorical variable, plain text (Not all products have sub-products)
-- **Issue**: Categorical variable, plain text
-- **Sub-issue**: Categorical variable, plain text (Not all issues have sub-issues)
-- **Consumer complaint narrative**: Customer description in natural language, plain text
-- **Company public response**: Company's response in natural language, plain text
-- **Company**: Categorical variable, plain text
-- **State**: Categorical variable, plain text
-- **ZIP code**: Five-digit USPS zip code, number
-- **Tags**: Plain text
-- **Consumer consent provided?**: Shows whether the consumer provided consent to publish their complaint narrative, plain text
-- **Submitted via**: Categorical variable, plain text
-- **Date sent to company**: Date and time
-- **Company response to consumer**: Categorical variable, plain text
-- **Timely response?**: Yes/No, plain text
-- **Consumer disputed?**: Yes, No, N/A, plain text
-- **Complaint ID**
+- The dataset from the Consumer Complaint Database contains approximately 6 million entries, with about 2 million (34.6%) containing relevant text data for analysis.
+- Initial exploration revealed 21 product categories, which were later refined to 14 unique categories to reduce classification ambiguities caused by overlapping labels.
 
-## EDA Exploration on Data
-1. Looked for the unique values in the dataset for each metric/column.
-2. Looked for nulls and NAs in the dataset.
+### Modeling Approach
 
-The dataset includes features that are not essential for our research on text processing, vectorization, and multi-classification. To simplify the text classification task, we will create a new dataframe that focuses only on the ‘Product’ and ‘Consumer complaint narrative’ columns, renaming the latter to ‘Consumer_Complaints’. This method ensures our analysis remains relevant and efficient.
+- Various machine learning algorithms were tested, including Logistic Regression, K-Nearest Neighbors, Linear SVC, Decision Tree, Multinomial Naive Bayes, Random Forest, AdaBoost, and Gradient Boosting.
+- Logistic Regression emerged as the best-performing model with a mean accuracy of 99.1% during cross-validation.
 
-- Created a new dataframe with the ‘Product’ and ‘Consumer complaint narrative’ columns.
-- Removed missing values if present in the columns (we found 3.8M missing narratives).
-- Renamed 'Consumer complaint narrative' to 'Consumer_Complaint'.
+### Model Performance
 
-The shape of the DataFrame is: (2,050,110, 2). The percentage of non-null consumer complaints is: 34.6%.
+- Upon testing with a separate dataset, the Logistic Regression model achieved an accuracy of 83% in correctly categorizing complaints.
+- The remaining 17% miss rate was primarily due to inaccurate labeling in the input dataset.
 
-Out of more than 6 million complaints, about 2 million (roughly 35% of the original dataset) contain text data. This significant subset offers a strong basis for category identification and classification tasks.
+## Suggestions for Next Steps
 
-## Analysis and Category Restructuring
-The analysis revealed 21 distinct product categories, though some overlap is present. For example, ‘Credit card’ and ‘Prepaid card’ are both included under the broader ‘Credit card or prepaid card’ category. This overlap can cause classification ambiguities and potentially impact model performance. To address this, we renamed and regrouped categories, reducing them to 14 unique ones. This restructuring aimed to ensure clearer distinctions and improve analysis and classification.
+### Enhance Data Quality
 
-From the data after plotting and analysis, it is evident that the majority of customer complaints are related to credit reporting and repair, debt collection, and mortgages.
+- Focus on improving the quality of data labeling to reduce errors in supervised learning processes. This can involve revisiting the labeling criteria and ensuring consistency across all entries.
 
-## Computational Challenges and Data Sampling
-In the context of our recent computational analysis project, we encountered significant challenges related to the time-consuming nature of the computations, particularly in terms of CPU usage. To address this issue and ensure timely results, we implemented a data sampling strategy. The current dataset has close to 2M rows and 2 columns to address.
+### Refine Model Performance
 
-## Methodology
-The text data on consumer complaints will be preprocessed using WordNetLemmatizer to generate tokens, which will be transformed into vectors using Term Frequency-Inverse Document Frequency (TFIDF) weighting.
+- Continue hyperparameter tuning and explore advanced techniques such as ensemble methods or deep learning models to further enhance classification accuracy.
+- Implement a feedback loop where misclassified complaints are analyzed and used to retrain the model for improved accuracy.
 
-Using basic classifiers for modeling with cross-validation to see the initial results:
-- Logistic Regression
-- K-Nearest Neighbors
-- Linear SVC
-- Decision Tree
-- Multinomial NB
-- Random Forest Classifier
+### Scalability and Adaptation
 
-We used Stratified KFold for generating the optimal cross-validation. 
+- Given the model's success in categorizing consumer complaints, explore its application in other domains that require text classification.
+- Develop scalable solutions that can handle increased data volumes without compromising performance.
 
-Applied SMOTE (Synthetic Minority Oversampling Technique) to handle class imbalance between the clusters.
+### Operational Integration
 
-The baseline score for the classifier was obtained by using the DummyClassifier with the training data. The score to meet or exceed is ~60%.
+- Integrate the classification model into existing customer service workflows to automate complaint handling and resolution processes.
+- Train staff on interpreting model outputs to ensure seamless integration into customer service operations.
 
-The best of the models will be picked as needed after the cross-validation scores are analyzed. We will enhance the efficiency of the models using hyperparameter tuning. Finally, we will compute the model's accuracy and use it on the test set to see if the classifier picks the right product for the complaint.
+## Conclusion
 
-## Cross-Validation Modeling Results
-The research found that the best algorithm for this particular dataset was logistic regression.
+The successful implementation of a Logistic Regression model for classifying consumer complaints demonstrates significant potential for improving customer service operations through machine learning. While current results are promising, focusing on data quality and model refinement will be key to achieving even greater accuracy and efficiency in complaint management. These efforts will not only enhance consumer satisfaction but also streamline operational processes across various domains.
 
-| Model                    | Mean Accuracy | Standard Deviation |
-|--------------------------|---------------|--------------------|
-| RandomForestClassifier   | 0.847444      | 0.014917           |
-| LinearSVC                | 0.988822      | 0.000568           |
-| MultinomialNB            | 0.988154      | 0.001117           |
-| KNeighborsClassifier     | 0.941808      | 0.005136           |
-| LogisticRegression       | 0.991013      | 0.001322           |
-| DecisionTreeClassifier   | 0.958482      | 0.002215           |
-
-## Next Steps
-To elevate the performance of our initial models, we will focus on hyperparameter tuning. The primary models under consideration are LinearSVC, Logistic Regression, and Multinomial Naive Bayes. These models have demonstrated comparable accuracy, and our goal is to determine if hyperparameter optimization can reveal a standout performer among them. This process aims to refine our predictive capabilities and select the most effective model for our needs.
-
-Once the final model is selected, accuracy scores in terms of precision, recall, accuracy, and F1 scores will be computed. The confusion matrix will also be generated.
-
-The model will then be trained on the test set, and we will look at the prediction of the right products based on consumer complaints.
 
 ## GitHub Locations
 The main project and its files are located at GitHub Repository.
